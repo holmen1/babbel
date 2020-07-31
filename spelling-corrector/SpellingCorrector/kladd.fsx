@@ -11,3 +11,4 @@ let matchToWord (wordMatch:Match) = wordMatch.Value
 let s = Seq.map matchToWord (Seq.cast matches)
 // val it : seq<string> = seq ["The"; "Project"; "Gutenberg"; "EBook"; ...]
 
+let lower = (fun (str:string) -> str.ToLower()) 
