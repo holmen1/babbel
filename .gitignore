@@ -14,3 +14,7 @@ bld/
 
 spelling-corrector/Data/big.txt
 
+__pycache__
+.ipynb_checkpoints
+*.pyc
+
