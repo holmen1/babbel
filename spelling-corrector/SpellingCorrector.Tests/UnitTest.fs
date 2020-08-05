@@ -32,3 +32,14 @@ type TestClass () =
         let actual = SC.wordmap hello
         Assert.That(actual, Is.EqualTo(expected))
 
+    [<Test>]
+    member this.TestP() =
+        let wordmap = Map.empty.
+                               Add("hello", 3).
+                               Add("mats", 2).
+                               Add("holm", 1)
+        let P = SC.probability (SC.WordMap wordmap)
+        let expected = 2.0 / 6.0
+        let actual = P "mats"
+        Assert.That(actual, Is.EqualTo(expected))
+

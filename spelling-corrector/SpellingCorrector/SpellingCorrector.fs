@@ -8,6 +8,8 @@ open System.Text.RegularExpressions
 
 module SC =
 
+    type WordMap = WordMap of Map<string,int>
+
     let read path:string =
         File.ReadAllText(path)
 
@@ -27,3 +29,14 @@ module SC =
         Seq.distinct words
         |> Seq.map (fun w -> (w, count w))
         |> Map.ofSeq
+
+    // let P xs = raise (System.NotImplementedException("You haven't written a test yet!"))
+
+    // word count in word dictionary (Map)
+    let wc (WordMap wm) = 
+        Map.toSeq wm
+        |> Seq.sumBy (fun kvp -> (snd kvp))
+
+    let probability (WordMap WORDS) word =
+        let N = WordMap WORDS |> wc
+        float WORDS.[word] / float N
