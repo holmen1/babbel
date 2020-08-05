@@ -60,6 +60,10 @@ m |> Map.toSeq |> Seq.sumBy (fun kvp -> (snd kvp))
 // Compute the sum of the squares of the elements of a list by using List.sumBy.
 let sum2 = List.sumBy (fun elem -> elem*elem) [1 .. 10]
 
+let wc myMap =
+    Map.toSeq myMap
+    |> Seq.sumBy (fun kvp -> (snd kvp))
+
 // word count in word dictionary (Map)
 type MapFn = Map<string,int> -> int
 let wc:MapFn = (function wm ->
@@ -77,6 +81,11 @@ let wc2 = (function (WordMap wm) ->
 let wc3 (WordMap wm) = 
     Map.toSeq wm
     |> Seq.sumBy (fun kvp -> (snd kvp))
+
+
+m |> Map.fold (fun state _ value -> state + value)  0
+let wc4 wm = 
+    Map.fold (fun state key value -> state + value)  0 wm
 
 let WORDS = wordmap (seq { "i"; "am"; "a"; "a"; "and"; "i"; "am"; "also"; "a"; "sequence" })
             |> WordMap
