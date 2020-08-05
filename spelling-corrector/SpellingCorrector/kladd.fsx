@@ -37,7 +37,7 @@ let tst = seq { "i"; "am"; "a"; "a"; "and"; "i"; "am"; "also"; "a"; "sequence" }
 let testU = Seq.distinct tst
 
 let wordmap words =
-    let count = (fun word -> Seq.filter (fun w -> w = word) words |> Seq.length)
+    let count word = (Seq.filter (fun w -> w = word) words |> Seq.length)
     Seq.distinct words
     |> Seq.map (fun w -> (w, count w))
     |> Map.ofSeq
