@@ -43,3 +43,14 @@ type TestClass () =
         let actual = P "mats"
         Assert.That(actual, Is.EqualTo(expected))
 
+    [<Test>]
+    member this.TestKnown() =
+        let wordmap = Map.empty.
+                               Add("hello", 3).
+                               Add("mats", 2).
+                               Add("holm", 1)
+        let hello = seq { "hello"; "mats"; "holmlund"; "hello"; "holm"; "mats" }
+        let expected = seq { "hello"; "mats"; "holm"; }
+        let actual = SC.known wordmap hello
+        Assert.That(Set.ofSeq actual,Is.EqualTo(Set.ofSeq expected))
+
