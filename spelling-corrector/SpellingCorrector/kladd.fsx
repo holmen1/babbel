@@ -60,9 +60,10 @@ m |> Map.toSeq |> Seq.sumBy (fun kvp -> (snd kvp))
 // Compute the sum of the squares of the elements of a list by using List.sumBy.
 let sum2 = List.sumBy (fun elem -> elem*elem) [1 .. 10]
 
-let wc myMap =
+// error FS0071
+(* let wc myMap =
     Map.toSeq myMap
-    |> Seq.sumBy (fun kvp -> (snd kvp))
+    |> Seq.sumBy (fun kvp -> (snd kvp)) *)
 
 // word count in word dictionary (Map)
 type MapFn = Map<string,int> -> int
@@ -97,3 +98,28 @@ let P = Probability WORDS
 
 P "am"
 // val it : float = 0.2
+
+let ws = seq { "i"; "am"; "a"; "mats"; "a" }
+
+m |> Map.exists (fun key value -> key = "mats")
+let known0 wmap word =
+    Map.exists (fun key _ -> key = word) wmap
+
+Seq.filter (fun w -> Map.exists (fun key _ -> key = w) m) ws
+let known wmap words =
+    let isKnown map word = Map.exists (fun key _ -> key = word) map
+    Seq.filter (fun w -> isKnown wmap w) words
+
+Set.ofSeq ws
+let known2 wmap words =
+    let vocab = wmap |> Map.toSeq |> Seq.map fst |> Set.ofSeq
+    words |> Set.ofSeq
+    |> Set.intersect vocab
+    |> Set.toSeq
+
+let known3 wmap words =
+    words |> Set.ofSeq
+    wmap |> Map.toSeq |> Seq.map fst |> Set.ofSeq
+    Set.intersect
+    |> Set.toSeq
+

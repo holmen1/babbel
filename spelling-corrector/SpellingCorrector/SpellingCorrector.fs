@@ -37,3 +37,9 @@ module SC =
     let probability wmap word =
         let N = wmap |> wc
         float wmap.[word] / float N
+
+    let known wmap words =
+        let vocab = wmap |> Map.toSeq |> Seq.map fst |> Set.ofSeq
+        words |> Set.ofSeq
+        |> Set.intersect vocab
+        |> Set.toSeq
