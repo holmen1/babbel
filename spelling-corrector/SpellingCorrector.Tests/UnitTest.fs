@@ -54,3 +54,17 @@ type TestClass () =
         let actual = SC.known wordmap hello
         Assert.That(Set.ofSeq actual,Is.EqualTo(Set.ofSeq expected))
 
+    [<Test>]
+    member this.TestSplit() =
+        let word = "abc"
+        let expected = seq { ("","abc"); ("a", "bc"); ("ab", "c"); ("abc", "") }
+        let actual = SC.split word
+        Assert.That(actual, Is.EqualTo(expected))
+
+    [<Test>]
+    member this.TestEdit1() =
+        let word = "somthing"
+        let expected = 442
+        let (ed1:int seq) = SC.edit1 word
+        let actual = 0 //SC.edit1 word |> Seq.Length
+        Assert.That(actual, Is.EqualTo(expected))

@@ -117,9 +117,34 @@ let known2 wmap words =
     |> Set.intersect vocab
     |> Set.toSeq
 
-let known3 wmap words =
-    words |> Set.ofSeq
-    wmap |> Map.toSeq |> Seq.map fst |> Set.ofSeq
-    Set.intersect
-    |> Set.toSeq
+
+let str1 = "abcdef"
+str1.[..2]
+str1.[2..]
+str1.Length
+str1 |> String.iter (fun x->printf "%c" x)
+str1 |> String.iteri (fun i x->printfn "i=%d, %c" i x)
+str1 |> String.iteri (fun i s -> printfn "i=%d, %A" i (str1.[..i]))
+// i=0, "a"
+// i=1, "ab"
+// i=2, "abc"
+// i=3, "abcd"
+// i=4, "abcde"
+// i=5, "abcdef"
+
+str1 |> String.iteri (fun i _ -> printfn "i=%d, %A" i (str1.[..i], str1.[i..]))
+Seq.mapi (fun i _ -> (str1.[..i], str1.[i..])) str1
+
+seq { for i in 0 .. str1.Length -> (str1.[..i-1], str1.[i-1..]) }
+
+let str2 = "mats" 
+
+str2 + string 'a'
+
+let split (word:string) =
+    let l = word.Length
+    seq { for i in 0..l -> (word.[..i-1], word.[i..]) }
+
+let s = split "mats";;
+s |> Seq.map (fun t -> printfn "%O" t)
 

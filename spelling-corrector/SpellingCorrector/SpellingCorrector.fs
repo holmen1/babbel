@@ -43,3 +43,10 @@ module SC =
         words |> Set.ofSeq
         |> Set.intersect vocab
         |> Set.toSeq
+
+    let split (word:string) =
+        let l = word.Length
+        seq { for i in 0..l -> (word.[..i-1], word.[i..]) }
+
+    let edit1 word = raise (System.NotImplementedException("You haven't written a test yet!"))
+
