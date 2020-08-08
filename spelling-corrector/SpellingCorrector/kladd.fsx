@@ -145,6 +145,40 @@ let split (word:string) =
     let l = word.Length
     seq { for i in 0..l -> (word.[..i-1], word.[i..]) }
 
-let s = split "mats";;
-s |> Seq.map (fun t -> printfn "%O" t)
+let splits = split "mats";;
+splits |> Seq.map (fun t -> printfn "%O" t)
 
+
+seq { for c in 'a'..'z' -> c }
+let letters = seq { for c in 'a'..'z' -> c }
+
+Seq.iter (fun s -> printfn "%s,%s" (fst s) (snd s)) splits
+
+Seq.map (fun s -> printfn "%s,%s" (fst s) (snd s)) splits
+
+Seq.iteri  (fun i s -> printfn "%d=   %s,%s" i (fst s) (snd s)) splits
+
+splits |> Seq.item 0
+// val it : string * string = ("", "mats")
+Seq.item 0 splits
+
+Seq.iteri  (fun i s -> printfn "%d=   %s" i ((fst s) + (snd s))) splits
+
+splits |> Seq.tail
+
+Seq.iteri  (fun i s -> printfn "%d=   %s" i ((fst (Seq.item i splits)) + (fst (Seq.item i splits)))) splits
+// 0=   
+// 1=   mm
+// 2=   mama
+// 3=   matmat
+// 4=   matsmats
+
+Seq.iteri  (fun i s -> printfn "%d=   %s" i ((fst (Seq.item i splits)) + (fst (Seq.item (i+1) splits)))) splits
+// index out of range
+
+let l = Seq.length splits
+seq { for i in 0..(l-2) -> (fst (Seq.item i splits)) + (snd (Seq.item (i+1) splits)) }
+
+let deletes (s:(string*string) seq) =
+    let l = Seq.length s
+    seq { for i in 0..(l-2) -> (string (fst (Seq.item i s))) + (string (snd (Seq.item (i+1) s))) }
