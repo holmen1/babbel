@@ -153,6 +153,11 @@ seq { for c in 'a'..'z' -> c }
 let letters = seq { for c in 'a'..'z' -> c }
 
 Seq.iter (fun s -> printfn "%s,%s" (fst s) (snd s)) splits
+// ,mats
+// m,ats
+// ma,ts
+// mat,s
+// mats,
 
 Seq.map (fun s -> printfn "%s,%s" (fst s) (snd s)) splits
 
@@ -179,6 +184,26 @@ Seq.iteri  (fun i s -> printfn "%d=   %s" i ((fst (Seq.item i splits)) + (fst (S
 let l = Seq.length splits
 seq { for i in 0..(l-2) -> (fst (Seq.item i splits)) + (snd (Seq.item (i+1) splits)) }
 
-let deletes (s:(string*string) seq) =
+let deletes0 (s:(string*string) seq) =
     let l = Seq.length s
     seq { for i in 0..(l-2) -> (string (fst (Seq.item i s))) + (string (snd (Seq.item (i+1) s))) }
+
+// better
+splits
+//  seq [("", "mats"); ("m", "ats"); ("ma", "ts"); ("mat", "s"); ...]
+splits |> Seq.tail
+//  seq [("m", "ats"); ("ma", "ts"); ("mat", "s"); ("mats", "")]
+Seq.map2 (fun i1 i2 -> fst i1 + snd i2) splits (Seq.tail splits)
+
+let deletes01 (wseq:(string*string) seq) =
+    Seq.map2 (fun split nextsplit -> fst split + snd nextsplit) wseq (Seq.tail wseq)
+
+Seq.zip splits (Seq.tail splits)
+
+Seq.zip splits (Seq.tail splits)
+|> Seq.map (fun i -> fst (fst i) + snd (snd i))
+
+
+let deletes s =
+    Seq.zip splits (Seq.tail splits)
+    |> Seq.map (fun i -> fst (fst i) + snd (snd i))

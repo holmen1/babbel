@@ -48,10 +48,9 @@ module SC =
         let l = word.Length
         seq { for i in 0..l -> (word.[..i-1], word.[i..]) }
 
-    let deletes (wseq:(string*string) seq) =
-        let l = Seq.length wseq
-        seq { for i in 0..(l-2) -> (string (fst (Seq.item i wseq))) +
-                                   (string (snd (Seq.item (i+1) wseq))) }
+    let deletes (wsplit:(string*string) seq) =
+        Seq.zip wsplit (Seq.tail wsplit) // Seq.zip truncates longer seq
+        |> Seq.map (fun z -> fst (fst z) + snd (snd z))
 
     let edit1 word = raise (System.NotImplementedException("You haven't written a test yet!"))
 
