@@ -69,6 +69,13 @@ type TestClass () =
         Assert.That(actual, Is.EqualTo(expected))
 
     [<Test>]
+    member this.TestTranspose() =
+        let wordseq = seq { ("","mats"); ("m", "ats"); ("ma", "ts"); ("mat", "s"); ("mats", "") }
+        let expected = seq { "amts"; "mtas"; "mast" }
+        let actual = SC.transpose wordseq
+        Assert.That(actual, Is.EqualTo(expected))
+
+    [<Test>]
     member this.TestEdit1() =
         let word = "somthing"
         let expected = 442

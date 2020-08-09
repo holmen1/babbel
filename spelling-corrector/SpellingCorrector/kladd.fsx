@@ -178,7 +178,7 @@ Seq.iteri  (fun i s -> printfn "%d=   %s" i ((fst (Seq.item i splits)) + (fst (S
 // 3=   matmat
 // 4=   matsmats
 
-Seq.iteri  (fun i s -> printfn "%d=   %s" i ((fst (Seq.item i splits)) + (fst (Seq.item (i+1) splits)))) splits
+// Seq.iteri  (fun i s -> printfn "%d=   %s" i ((fst (Seq.item i splits)) + (fst (Seq.item (i+1) splits)))) splits
 // index out of range
 
 let l = Seq.length splits
@@ -207,3 +207,31 @@ Seq.zip splits (Seq.tail splits)
 let deletes s =
     Seq.zip splits (Seq.tail splits)
     |> Seq.map (fun i -> fst (fst i) + snd (snd i))
+
+
+
+
+['a';'b';'c']
+|> function |a::b::t -> b::a::t |a -> failwith "not enough elements" 
+
+List.ofSeq "abcd" |> List.toArray |> (fun s -> System.String s) |> printfn "%A"
+
+['a';'b';'c'] |> List.toArray |> (fun s -> System.String s) |> printfn "%A"
+
+let swap2 = function |a::b::t -> b::a::t |a -> failwith "not enough elements" 
+// > swap2 ['m'; 'a'; 't'];;
+// val it : char list = ['a'; 'm'; 't']
+
+let swap word =
+    List.ofSeq word
+    |> function |a::b::t -> b::a::t |a -> failwith "not enough elements" 
+    |> List.toArray
+    |> System.String
+
+let transpose (wseq:(string*string) seq) =
+    Seq.filter (fun wtuple -> String.length (snd wtuple) > 1) wseq
+    |> Seq.map (fun wtuple -> (fst wtuple) + (swap (snd wtuple)))
+
+
+
+transpose splits

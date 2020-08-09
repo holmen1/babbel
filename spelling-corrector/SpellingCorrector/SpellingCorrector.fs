@@ -52,5 +52,22 @@ module SC =
         Seq.zip wsplit (Seq.tail wsplit) // Seq.zip truncates longer seq
         |> Seq.map (fun z -> fst (fst z) + snd (snd z))
 
+    // helper fcn in transpose
+    // swaps first 2 chars in string
+    let swap word =
+        List.ofSeq word
+        |> function |a::b::t -> b::a::t |a -> failwith "not enough elements" 
+        |> List.toArray
+        |> System.String
+
+    // swap two adjacent letters
+    let transpose (wseq:(string*string) seq) =
+        Seq.filter (fun wtuple -> String.length (snd wtuple) > 1) wseq
+        |> Seq.map (fun wtuple -> (fst wtuple) + (swap (snd wtuple)))
+
+    let replace word = raise (System.NotImplementedException("You haven't written a test yet!"))
+
+    let insert word = raise (System.NotImplementedException("You haven't written a test yet!"))
+
     let edit1 word = raise (System.NotImplementedException("You haven't written a test yet!"))
 
