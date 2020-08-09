@@ -65,6 +65,19 @@ module SC =
         Seq.filter (fun wtuple -> String.length (snd wtuple) > 1) wseq
         |> Seq.map (fun wtuple -> (fst wtuple) + (swap (snd wtuple)))
 
+    let replace wseq =
+        let letters = seq { for c in 'a'..'z' -> c }
+        let z = Seq.zip wseq (wseq |> Seq.tail)
+        let insertchar = (fun z c ->  z |> Seq.map (fun i -> fst (fst i) + (string c) + snd (snd i)))
+        Seq.map (fun c -> insertchar z c |> Set.ofSeq) letters
+        |> Set.unionMany
+
+    let insert wseq =
+        let letters = seq { for c in 'a'..'z' -> c }
+        let insertchar = (fun w c ->  w |> Seq.map (fun i -> (fst i) + (string c) + (snd i)))
+        Seq.map (fun c -> insertchar wseq c |> Set.ofSeq) letters
+        |> Set.unionMany
+
     let replace word = raise (System.NotImplementedException("You haven't written a test yet!"))
 
     let insert word = raise (System.NotImplementedException("You haven't written a test yet!"))

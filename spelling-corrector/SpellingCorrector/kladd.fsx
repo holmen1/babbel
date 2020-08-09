@@ -150,7 +150,7 @@ splits |> Seq.map (fun t -> printfn "%O" t)
 
 
 seq { for c in 'a'..'z' -> c }
-let letters = seq { for c in 'a'..'z' -> c }
+// let letters = seq { for c in 'a'..'z' -> c }
 
 Seq.iter (fun s -> printfn "%s,%s" (fst s) (snd s)) splits
 // ,mats
@@ -232,6 +232,47 @@ let transpose (wseq:(string*string) seq) =
     Seq.filter (fun wtuple -> String.length (snd wtuple) > 1) wseq
     |> Seq.map (fun wtuple -> (fst wtuple) + (swap (snd wtuple)))
 
+// - - -
+
+let str = "mats"
+str.[..0] + "r" + str.[2..] // [0] -> char, not string
+// val it : string = "mrts"
+
+let letters = seq { for c in 'a'..'z' -> c }
+Seq.map (fun c -> str.[..0] + (string c) + str.[2..]) letters
+
+splits |> Seq.tail |> Seq.tail
+Seq.zip splits (splits |> Seq.tail)
+    // [(("", "mats"), ("m", "ats")); (("m", "ats"), ("ma", "ts"));
+    //  (("ma", "ts"), ("mat", "s")); (("mat", "s"), ("mats", ""))]
+
+let insert0 s c =
+    Seq.zip splits (splits |> Seq.tail)
+    |> Seq.map (fun i -> fst (fst i) + (string c) + snd (snd i))
+
+let inserts0 s =
+    let letters = seq { for c in 'a'..'z' -> c }
+    Seq.map (fun c -> insert0 s c) letters
+
+let insert s c =
+    Seq.zip splits (splits |> Seq.tail)
+    |> Seq.map (fun i -> fst (fst i) + (string c) + snd (snd i))
+
+let inserts wseq =
+    let letters = seq { for c in 'a'..'b' -> c }
+    let z = Seq.zip wseq (wseq |> Seq.tail)
+    let insertchar = (fun z c ->  z |> Seq.map (fun i -> fst (fst i) + (string c) + snd (snd i)))
+    Seq.map (fun c -> insertchar z c) letters
+
+let tst0 = inserts splits
+tst0 |> Seq.map (fun s -> s |> Seq.map (fun ins -> printfn "%s" ins))
 
 
-transpose splits
+let inserts1 wseq =
+    let letters = seq { for c in 'a'..'z' -> c }
+    let z = Seq.zip wseq (wseq |> Seq.tail)
+    let insertchar = (fun z c ->  z |> Seq.map (fun i -> fst (fst i) + (string c) + snd (snd i)))
+    Seq.map (fun c -> insertchar z c |> Set.ofSeq) letters
+    |> Set.unionMany
+    
+
