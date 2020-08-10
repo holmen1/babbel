@@ -8,6 +8,11 @@ open System.Text.RegularExpressions
 
 module SC =
 
+    let letters = seq { for c in 'a'..'z' -> c }
+
+
+// Utils
+
     let read path:string =
         File.ReadAllText(path)
 
@@ -17,8 +22,8 @@ module SC =
         |> Seq.cast
         |> Seq.map (fun (w:Match) -> w.Value)
 
-    let lower s =
-        Seq.map (fun (str:string) -> str.ToLower()) s
+    let lower strings =
+        Seq.map (fun (str:string) -> str.ToLower()) strings
 
     // tally occurrences of words in a sequence
     // [("am", 2); ("12", 1); ("a", 62); ...]
@@ -27,8 +32,6 @@ module SC =
         Seq.distinct words
         |> Seq.map (fun w -> (w, count w))
         |> Map.ofSeq
-
-    // let P xs = raise (System.NotImplementedException("You haven't written a test yet!"))
 
     // word count in word dictionary (Map)
     let wc wmap = 
@@ -48,11 +51,7 @@ module SC =
         let l = word.Length
         seq { for i in 0..l -> (word.[..i-1], word.[i..]) }
 
-    let deletes (wsplit:(string*string) seq) =
-        Seq.zip wsplit (Seq.tail wsplit) // Seq.zip truncates longer seq
-        |> Seq.map (fun z -> fst (fst z) + snd (snd z))
-
-    // helper fcn in transpose
+    // helper fcn
     // swaps first 2 chars in string
     let swap word =
         List.ofSeq word
@@ -60,27 +59,40 @@ module SC =
         |> List.toArray
         |> System.String
 
+
+// Simple edits
+
+    // remove one letter)
+    let delete (wsplits:(string*string) seq) =
+        Seq.zip wsplits (Seq.tail wsplits) // Seq.zip truncates longer seq
+        |> Seq.map (fun z -> fst (fst z) + snd (snd z))
+    
     // swap two adjacent letters
-    let transpose (wseq:(string*string) seq) =
-        Seq.filter (fun wtuple -> String.length (snd wtuple) > 1) wseq
+    let transpose (wsplits:(string*string) seq) =
+        Seq.filter (fun wtuple -> String.length (snd wtuple) > 1) wsplits
         |> Seq.map (fun wtuple -> (fst wtuple) + (swap (snd wtuple)))
 
-    let replace wseq =
-        let letters = seq { for c in 'a'..'z' -> c }
-        let z = Seq.zip wseq (wseq |> Seq.tail)
+    // change one letter to another
+    let replace wsplits =
+        let z = Seq.zip wsplits (wsplits |> Seq.tail)
         let insertchar = (fun z c ->  z |> Seq.map (fun i -> fst (fst i) + (string c) + snd (snd i)))
         Seq.map (fun c -> insertchar z c |> Set.ofSeq) letters
         |> Set.unionMany
-
-    let insert wseq =
-        let letters = seq { for c in 'a'..'z' -> c }
+    
+    // add a letter
+    let insert wsplits =
         let insertchar = (fun w c ->  w |> Seq.map (fun i -> (fst i) + (string c) + (snd i)))
-        Seq.map (fun c -> insertchar wseq c |> Set.ofSeq) letters
+        Seq.map (fun c -> insertchar wsplits c |> Set.ofSeq) letters
         |> Set.unionMany
 
-    let replace word = raise (System.NotImplementedException("You haven't written a test yet!"))
 
-    let insert word = raise (System.NotImplementedException("You haven't written a test yet!"))
-
-    let edit1 word = raise (System.NotImplementedException("You haven't written a test yet!"))
+    // returns a set of all the edited strings that can be made with one simple edit:
+    let edit1 word =
+        let splits = split word
+        delete splits
+        |> Seq.append (transpose splits)
+        |> Set.ofSeq
+        |> Set.union (replace splits)
+        |> Set.union (insert splits)
+        
 

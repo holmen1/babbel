@@ -276,3 +276,12 @@ let inserts1 wseq =
     |> Set.unionMany
     
 
+let a = seq { 1 }
+let b = seq { 4 }
+let c = seq { 7 }
+
+a
+|> Seq.append b
+|> Seq.append c
+|> Set.ofSeq
+

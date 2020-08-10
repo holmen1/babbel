@@ -65,7 +65,7 @@ type TestClass () =
     member this.TestDeletes() =
         let wordseq = seq { ("","mats"); ("m", "ats"); ("ma", "ts"); ("mat", "s"); ("mats", "") }
         let expected = seq { "ats"; "mts"; "mas"; "mat" }
-        let actual = SC.deletes wordseq
+        let actual = SC.delete wordseq
         Assert.That(actual, Is.EqualTo(expected))
 
     [<Test>]
@@ -79,6 +79,5 @@ type TestClass () =
     member this.TestEdit1() =
         let word = "somthing"
         let expected = 442
-        let (ed1:int seq) = SC.edit1 word
-        let actual = 0 //SC.edit1 word |> Seq.Length
+        let actual = SC.edit1 word |> Set.count
         Assert.That(actual, Is.EqualTo(expected))
