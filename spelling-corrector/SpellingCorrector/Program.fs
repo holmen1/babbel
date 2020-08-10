@@ -6,13 +6,13 @@ open SpellingCorrector // SC
 
 [<EntryPoint>]
 let main argv =    
-    for str in argv do
-        let words = SC.words str
-        let lowered = SC.lower words
-        let WORDS = SC.wordmap lowered
-        printfn "Words in '%s' is:\n" str
-        for w in lowered do
-            printfn "- %s\n" w
-        Seq.iter (fun item -> printfn "%O" item) WORDS
-        
+    let wseq = SC.readfile (Array.item 0 argv)
+    let WORDS = SC.wordmap wseq
+    let e1 = SC.edit1 (Array.item 1 argv)
+    let known = SC.known WORDS e1
+
+    printfn "Known words is:\n"
+    for w in known do
+        printfn "- %s\n" w
+
     0
