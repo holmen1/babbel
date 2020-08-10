@@ -25,6 +25,11 @@ module SC =
     let lower strings =
         Seq.map (fun (str:string) -> str.ToLower()) strings
 
+    let readfile path =
+        read path
+        |> words
+        |> lower
+
     // tally occurrences of words in a sequence
     // [("am", 2); ("12", 1); ("a", 62); ...]
     let wordmap words =
@@ -42,10 +47,8 @@ module SC =
         float wmap.[word] / float N
 
     let known wmap words =
-        let vocab = wmap |> Map.toSeq |> Seq.map fst |> Set.ofSeq
-        words |> Set.ofSeq
-        |> Set.intersect vocab
-        |> Set.toSeq
+        wmap |> Map.toSeq |> Seq.map fst |> Set.ofSeq
+        |> Set.intersect words
 
     let split (word:string) =
         let l = word.Length

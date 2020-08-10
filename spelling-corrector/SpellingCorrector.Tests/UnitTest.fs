@@ -49,10 +49,10 @@ type TestClass () =
                                Add("hello", 3).
                                Add("mats", 2).
                                Add("holm", 1)
-        let hello = seq { "hello"; "mats"; "holmlund"; "hello"; "holm"; "mats" }
-        let expected = seq { "hello"; "mats"; "holm"; }
+        let hello = set ["hello"; "mats"; "holmlund"; "hello"; "holm"; "mats"]
+        let expected = set ["hello"; "mats"; "holm"]
         let actual = SC.known wordmap hello
-        Assert.That(Set.ofSeq actual,Is.EqualTo(Set.ofSeq expected))
+        Assert.That(actual,Is.EqualTo(expected))
 
     [<Test>]
     member this.TestSplit() =
@@ -80,4 +80,13 @@ type TestClass () =
         let word = "somthing"
         let expected = 442
         let actual = SC.edit1 word |> Set.count
+        Assert.That(actual, Is.EqualTo(expected))
+
+    [<Test>]
+    member this.TestMain() =
+        let wseq = SC.readfile @"/Users/holmen1/repos/babbel/spelling-corrector/Data/big.txt"
+        let WORDS = SC.wordmap wseq
+        let e1 = SC.edit1 "somthing"
+        let expected = set ["something"; "soothing"]
+        let actual = SC.known WORDS e1
         Assert.That(actual, Is.EqualTo(expected))
