@@ -34,9 +34,8 @@ module SC =
     // [("am", 2); ("12", 1); ("a", 62); ...]
     let wordmap words =
         words
-        |> Seq.groupBy id
+        |> Seq.countBy id
         |> Map.ofSeq
-        |> Map.map (fun _ words -> words |> Seq.length)
 
     // word count in word dictionary (Map)
     let wc wmap = 
