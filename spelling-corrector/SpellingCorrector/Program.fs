@@ -16,3 +16,36 @@ let main argv =
         printfn "- %s\n" w
 
     0
+
+(* $ dotnet run "/Users/holmen1/repos/babbel/spelling-corrector//Data/big.txt" "man"
+Known words is:
+- an
+- ban
+- can
+- dan
+- fan
+- jan
+- ma
+- mac
+- mad
+- main
+- mal
+- man
+- mane
+- mann
+- many
+- map
+- mat
+- max
+- may
+- mean
+- men
+- min
+- moan
+- mon
+- nan
+- pan
+- ran
+- san
+- van
+- wan *)

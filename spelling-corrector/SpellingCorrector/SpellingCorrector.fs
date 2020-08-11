@@ -33,10 +33,10 @@ module SC =
     // tally occurrences of words in a sequence
     // [("am", 2); ("12", 1); ("a", 62); ...]
     let wordmap words =
-        let count word = (Seq.filter (fun w -> w = word) words |> Seq.length)
-        Seq.distinct words
-        |> Seq.map (fun w -> (w, count w))
+        words
+        |> Seq.groupBy id
         |> Map.ofSeq
+        |> Map.map (fun _ words -> words |> Seq.length)
 
     // word count in word dictionary (Map)
     let wc wmap = 

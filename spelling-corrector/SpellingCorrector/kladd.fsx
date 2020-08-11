@@ -47,6 +47,10 @@ let wordmap words =
 //   map
 //     [("a", 3); ("also", 1); ("am", 2); ("and", 1); ("i", 2); ("sequence", 1)]
 
+let readfile path =
+    read path
+    |> words
+    |> lower
 
 let m = wordmap tst
 let ss = Map.toSeq m
@@ -285,3 +289,44 @@ a
 |> Seq.append c
 |> Set.ofSeq
 
+// - - -
+// Trimma wordmap, ballar ur vid 10^6 ord
+
+let read path:string =
+    File.ReadAllText(path)
+
+let words str =
+    let rx = Regex @"\w+"
+    rx.Matches str
+    |> Seq.cast
+    |> Seq.map (fun (w:Match) -> w.Value)
+
+let lower strings =
+    Seq.map (fun (str:string) -> str.ToLower()) strings
+
+let readfile path =
+    read path
+    |> words
+    |> lower
+
+let smallSeq = readfile @"../Data/small.txt" 
+let bigSeq = readfile @"../Data/big.txt" 
+let bigList = List.ofSeq bigSeq
+
+let counts =
+    ["red"; "blue"; "red"; "green"; "blue"; "blue"]
+    |> List.groupBy id
+    |> Map.ofList
+    |> Map.map (fun _ words -> words |> List.length)
+
+let counts =
+    bigSeq
+    |> Seq.groupBy id
+    |> Map.ofSeq
+    |> Map.map (fun _ words -> words |> Seq.length)
+
+let counts =
+    bigList
+    |> List.groupBy id
+    |> Map.ofList
+    |> Map.map (fun _ words -> words |> List.length)
