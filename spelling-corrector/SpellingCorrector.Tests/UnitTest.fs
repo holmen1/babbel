@@ -90,6 +90,15 @@ type TestClass () =
         Assert.That(actual, Is.EqualTo(expected))
 
     [<Test>]
+    member this.TestArgMax() =
+        let wseq = SC.readfile @"/Users/holmen1/repos/babbel/spelling-corrector/Data/big.txt"
+        let WORDS = SC.wordmap wseq
+        let w = WORDS |> Map.toSeq |> Seq.map fst |> Set.ofSeq
+        let expected =  "the"
+        let actual = SC.argmax WORDS w
+        Assert.That(actual, Is.EqualTo(expected))
+
+    [<Test>]
     member this.TestMain() =
         let wseq = SC.readfile @"/Users/holmen1/repos/babbel/spelling-corrector/Data/big.txt"
         let WORDS = SC.wordmap wseq

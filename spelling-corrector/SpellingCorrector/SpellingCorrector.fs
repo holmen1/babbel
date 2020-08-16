@@ -107,3 +107,10 @@ module SC =
         |> Set.union (edit2 word)
         |> known wmap
         |> Set.union (set [word])
+
+    // to slow :(
+    let argmax wmap wset =
+        Set.toList wset
+        |> List.map (fun v -> (v, probability wmap v))
+        |> List.maxBy snd
+        |> fst
