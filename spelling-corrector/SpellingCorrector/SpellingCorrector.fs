@@ -102,4 +102,8 @@ module SC =
         |> Set.map edit1
         |> Set.unionMany
         
-
+    let candidates wmap word =
+        edit1 word
+        |> Set.union (edit2 word)
+        |> known wmap
+        |> Set.union (set [word])

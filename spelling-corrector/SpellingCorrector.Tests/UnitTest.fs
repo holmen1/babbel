@@ -93,7 +93,7 @@ type TestClass () =
     member this.TestMain() =
         let wseq = SC.readfile @"/Users/holmen1/repos/babbel/spelling-corrector/Data/big.txt"
         let WORDS = SC.wordmap wseq
-        let e1 = SC.edit1 "somthing"
-        let expected = set ["something"; "soothing"]
-        let actual = SC.known WORDS e1
+        let e2 = SC.edit2 "somthing"
+        let expected = set ["loathing"; "nothing"; "scathing"; "seething"; "smoothing"; "something"; "soothing"; "sorting"]
+        let actual = SC.known WORDS e2
         Assert.That(actual, Is.EqualTo(expected))
