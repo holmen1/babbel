@@ -1,5 +1,5 @@
 # siamese-network
 
-* siamese-dream
+* question-duplicates
 
     Siamese LSTM models to compare questions in a corpus and identify those that are worded differently but have the same meaning

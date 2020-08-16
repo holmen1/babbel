@@ -18,4 +18,7 @@ __pycache__
 .ipynb_checkpoints
 *.pyc
 
+*.csv
+*.csv.orig
 model/
+model04/
