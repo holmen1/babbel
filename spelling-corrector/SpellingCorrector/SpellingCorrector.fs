@@ -96,5 +96,10 @@ module SC =
         |> Set.ofSeq
         |> Set.union (replace splits)
         |> Set.union (insert splits)
+
+    let edit2 word =
+        edit1 word
+        |> Set.map edit1
+        |> Set.unionMany
         
 

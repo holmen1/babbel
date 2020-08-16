@@ -83,6 +83,13 @@ type TestClass () =
         Assert.That(actual, Is.EqualTo(expected))
 
     [<Test>]
+    member this.TestEdit2() =
+        let word = "somthing"
+        let expected = 90902
+        let actual = SC.edit2 word |> Set.count
+        Assert.That(actual, Is.EqualTo(expected))
+
+    [<Test>]
     member this.TestMain() =
         let wseq = SC.readfile @"/Users/holmen1/repos/babbel/spelling-corrector/Data/big.txt"
         let WORDS = SC.wordmap wseq
