@@ -103,14 +103,14 @@ module SC =
         |> Set.unionMany
         
     let candidates wmap word =
-        edit1 word
-        |> Set.union (edit2 word)
-        |> known wmap
-        |> Set.union (set [word])
+        match word with
+            | str when not (known wmap (set [str])).IsEmpty -> set [str]
+            | str when not (known wmap (edit1 str)).IsEmpty  -> edit1 str
+            | str when not (known wmap (edit2 str)).IsEmpty  -> edit2 str
+            | _ -> set [word]
 
-    // to slow :(
     let argmax wmap wset =
-        Set.toList wset
-        |> List.map (fun v -> (v, probability wmap v))
-        |> List.maxBy snd
+        wset |> Set.toSeq
+        |> Seq.map (fun v -> (v, probability wmap v))
+        |> Seq.maxBy snd
         |> fst
