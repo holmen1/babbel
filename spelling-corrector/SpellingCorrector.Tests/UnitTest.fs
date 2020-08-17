@@ -99,10 +99,18 @@ type TestClass () =
         Assert.That(actual, Is.EqualTo(expected))
 
     [<Test>]
-    member this.TestMain() =
+    member this.TestEdit22() =
         let wseq = SC.readfile @"/Users/holmen1/repos/babbel/spelling-corrector/Data/big.txt"
         let WORDS = SC.wordmap wseq
         let e2 = SC.edit2 "somthing"
         let expected = set ["loathing"; "nothing"; "scathing"; "seething"; "smoothing"; "something"; "soothing"; "sorting"]
         let actual = SC.known WORDS e2
+        Assert.That(actual, Is.EqualTo(expected))
+
+    [<Test>]
+    member this.TestCorrection() =
+        let wseq = SC.readfile @"/Users/holmen1/repos/babbel/spelling-corrector/Data/big.txt"
+        let WORDS = SC.wordmap wseq
+        let expected = ["spelling"; "corrected"]
+        let actual = [SC.correction WORDS "speling"; SC.correction WORDS "korrectud"]
         Assert.That(actual, Is.EqualTo(expected))

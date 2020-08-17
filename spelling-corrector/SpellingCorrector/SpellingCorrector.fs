@@ -104,9 +104,9 @@ module SC =
         
     let candidates wmap word =
         match word with
-            | str when not (known wmap (set [str])).IsEmpty -> set [str]
-            | str when not (known wmap (edit1 str)).IsEmpty  -> edit1 str
-            | str when not (known wmap (edit2 str)).IsEmpty  -> edit2 str
+            | str when not (known wmap (set [str])).IsEmpty -> set [str] |> known wmap
+            | str when not (known wmap (edit1 str)).IsEmpty  -> edit1 str |> known wmap
+            | str when not (known wmap (edit2 str)).IsEmpty  -> edit2 str |> known wmap
             | _ -> set [word]
 
     let argmax wmap wset =
@@ -114,3 +114,7 @@ module SC =
         |> Seq.map (fun v -> (v, probability wmap v))
         |> Seq.maxBy snd
         |> fst
+
+    let correction wmap word =
+        candidates wmap word
+        |> argmax wmap
