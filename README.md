@@ -13,3 +13,9 @@
 * siamese-network
 
     Question duplicates
+
+* seq2seq
+
+    Translation with a Sequence to Sequence Network and Attention
+
+    Pytorch tutorial

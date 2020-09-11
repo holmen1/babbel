@@ -10,9 +10,10 @@ bld/
 [Oo]bj/
 [Ll]og/
 
-.ionide/
-
+data/
 spelling-corrector/Data/big.txt
+
+.ionide/
 
 __pycache__
 .ipynb_checkpoints
