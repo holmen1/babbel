@@ -19,3 +19,7 @@
     Translation with a Sequence to Sequence Network and Attention
 
     Pytorch tutorial
+
+* transformer-decoder
+
+    News summarization using GPT-2
