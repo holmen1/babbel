@@ -10,6 +10,10 @@
 
     Classify tweets using Trax
 
+* part-of-speech
+
+    Grammatical tagging using Hidden Markov Model
+
 * word2vec
 
     Word embeddings
