@@ -10,6 +10,10 @@
 
     Classify tweets using Trax
 
+* word2vec
+
+    Word embeddings
+
 * siamese-network
 
     Question duplicates
@@ -23,3 +27,7 @@
 * transformer-decoder
 
     News summarization using GPT-2
+
+* chatbot
+
+    Pre-trained reformer model
