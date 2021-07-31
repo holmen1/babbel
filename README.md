@@ -10,6 +10,10 @@
 
     Classify tweets using Trax
 
+* multi-class-sentiment-analysis
+
+    Tuning a pretrained BERT model using Pytorch in AWS SageMaker
+
 * part-of-speech
 
     Grammatical tagging using Hidden Markov Model
